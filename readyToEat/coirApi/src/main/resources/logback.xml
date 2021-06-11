@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="30 seconds">
+	<property name="APP_LOG"
+		value="/home/application/logs/UmangDepartment/coir" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%-5level- %M - %L] %class{5}
+				-%msg%ex{short}%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="acccess"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${APP_LOG}/%d{dd-MM-yyyy,aux}/access_%d{HH}.txt
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%-5level- %M - %L] %class{5}
+				-%msg%ex{full}%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="LOG-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${APP_LOG}/%d{dd-MM-yyyy, aux}/log_%d{HH}.txt
+			</fileNamePattern>
+
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%-5level- %M - %L] %class{5}
+				-%msg%ex{full}%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="LOG-DEBUG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <filter class="ch.qos.logback.classic.filter.LevelFilter"> <level>DEBUG</level> 
+			<onMatch>ACCEPT</onMatch> <onMismatch>DENY</onMismatch> </filter> -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${APP_LOG}/%d{dd-MM-yyyy, aux}/debug_%d{HH}.txt
+			</fileNamePattern>
+
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%-5level- %M - %L] %class{5}
+				-%msg%ex{short}%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="ASYNC-DEBUG" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1000</queueSize>
+		<appender-ref ref="LOG-DEBUG" />
+		<includeCallerData>true</includeCallerData>
+	</appender>
+
+	<appender name="ASYNC-FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1000</queueSize>
+		<appender-ref ref="LOG-FILE" />
+		<includeCallerData>true</includeCallerData>
+	</appender>
+	<appender name="FILE-ERROR"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${APP_LOG}/%d{dd-MM-yyyy, aux}/error_%d{HH}.txt
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%-5level- %M - %L] %class{5}
+				-%msg%ex{full}%n</pattern>
+		</encoder>
+
+	</appender>
+	<appender name="response"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${APP_LOG}/%d{dd-MM-yyyy,aux}/response_%d{HH}.txt
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%-5level- %M - %L] %class{5}
+				-%msg%ex{short}%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC-FILE-ERROR" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1000</queueSize>
+		<appender-ref ref="FILE-ERROR" />
+		<includeCallerData>true</includeCallerData>
+	</appender>
+	<appender name="ASYNC-access" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1000</queueSize>
+		<appender-ref ref="acccess" />
+		<includeCallerData>true</includeCallerData>
+	</appender>
+	<appender name="ASYNC-response" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1000</queueSize>
+		<appender-ref ref="response" />
+		<includeCallerData>true</includeCallerData>
+	</appender>
+	<appender name="smscallback"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${APP_LOG}/%d{dd-MM-yyyy,aux}/smscallback_%d{HH}.txt
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%-5level- %M - %L] %class{5}
+				-%msg%ex{short}%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<!-- the level of the root level is set to DEBUG by default. -->
+	<logger name="smscallbackOut" level="DEBUG" additivity="false">
+		<appender-ref ref="smscallback" />
+	</logger>
+	<logger name="acccessOut" level="DEBUG" additivity="false">
+		<appender-ref ref="ASYNC-access" />
+	</logger>
+	<logger name="responseOut" level="DEBUG" additivity="false">
+		<appender-ref ref="ASYNC-response" />
+	</logger>
+	<root level="DEBUG">
+		<appender-ref ref="ASYNC-FILE-ERROR" />
+		<appender-ref ref="ASYNC-FILE" />
+		<appender-ref ref="ASYNC-DEBUG" />
+	    <appender-ref ref="ASYNC-FILE-ERROR" /> 
+		<appender-ref ref="ASYNC-FILE" /> 
+		<appender-ref ref="ASYNC-DEBUG" /> 
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>
